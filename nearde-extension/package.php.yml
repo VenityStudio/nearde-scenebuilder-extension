@@ -1,0 +1,12 @@
+name: nearde-scenebuilder-extension
+version: 1.0.0
+deps:
+  jphp-core: '*'
+  jphp-gui-scenebuilder-ext: '*'
+  Nearde-SDK: '*'
+plugins:
+- App
+sources:
+- src
+includes:
+- index.php

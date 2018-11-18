@@ -1,0 +1,14 @@
+name: jphp-gui-scenebuilder-ext
+version: 1.0.0
+
+plugins:
+   - Gradle
+   - Doc
+
+deps:
+   jphp-runtime: '*'
+   jphp-gui-ext: '*'
+
+gradle:
+   deps:
+      - "file:./libs/scenebuilder-10.0.0.jar"
