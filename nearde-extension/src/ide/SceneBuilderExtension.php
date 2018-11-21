@@ -2,8 +2,8 @@
 
 namespace ide;
 
-
 use ide\formats\FXMLFormat;
+use ide\settings\SceneBuilderSettings;
 
 class SceneBuilderExtension extends AbstractExtension
 {
@@ -21,7 +21,7 @@ class SceneBuilderExtension extends AbstractExtension
      */
     public function getAuthor(): string
     {
-        return "Venity Group";
+        return "Gluon & Venity Group";
     }
 
     /**
@@ -29,7 +29,7 @@ class SceneBuilderExtension extends AbstractExtension
      */
     public function getVersion(): string
     {
-        return "1.0.0";
+        return "1.1.0";
     }
 
     /**
@@ -37,7 +37,7 @@ class SceneBuilderExtension extends AbstractExtension
      */
     public function getIcon32(): string
     {
-        return "SceneBuilderLogo.png";
+        return "icons/scenebuilder32.png";
     }
 
     /**
@@ -46,6 +46,10 @@ class SceneBuilderExtension extends AbstractExtension
     public function onRegister()
     {
         Ide::get()->registerFormat(new FXMLFormat());
+        Ide::get()->getSettingsContainer()->register(new SceneBuilderSettings());
+
+        Ide::get()->getLocalizer()->load("ru", "res://.data/langs/ru/scenebuilder.ini");
+        Ide::get()->getLocalizer()->load("en", "res://.data/langs/en/scenebuilder.ini");
     }
 
     public function onIdeStart()

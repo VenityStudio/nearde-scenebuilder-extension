@@ -2,7 +2,6 @@
 
 namespace ide\editors;
 
-
 use ide\Ide;
 use php\gui\layout\UXHBox;
 use php\gui\layout\UXVBox;
@@ -14,6 +13,7 @@ use php\gui\UXSplitPane;
 use php\io\File;
 use php\io\Stream;
 use php\lib\fs;
+use php\lib\str;
 
 class SceneBuilderEditor extends AbstractEditor
 {
@@ -53,7 +53,7 @@ class SceneBuilderEditor extends AbstractEditor
             $redo = new UXButton(),
             $this->editor->getSelectionBarController()->getPanelRoot()
         ]));
-        $box->add(new UXSplitPane([
+        $box->add($mainSplit = new UXSplitPane([
             $split = new UXSplitPane([
                 $this->editor->getLibraryPanelController()->getPanelRoot(),
                 $this->editor->getHierarchyPanelController()->getPanelRoot()
@@ -74,6 +74,9 @@ class SceneBuilderEditor extends AbstractEditor
         $undo->on("click", function () { $this->editor->getEditorController()->undo(); });
         $redo->on("click", function () { $this->editor->getEditorController()->redo(); });
 
+        $mainSplit->dividerPositions = str::split(Ide::get()->getUserConfigValue("extension.scenebuilder.split.center"), ";");
+        $split->dividerPositions     = str::split(Ide::get()->getUserConfigValue("extension.scenebuilder.split.left"), ";");
+
         $fun = function () use ($undo, $redo) {
             $this->save();
 
@@ -81,8 +84,13 @@ class SceneBuilderEditor extends AbstractEditor
             $redo->enabled = $this->editor->getEditorController()->canRedo();
         };
 
-        $box->on("mouseDown", $fun);
         $fun();
+
+        $box->on("mouseDown", $fun);
+        $box->on("mouseUp", function () use ($mainSplit, $split) {
+            Ide::get()->setUserConfigValue("extension.scenebuilder.split.center", str::join($mainSplit->dividerPositions, ";"));
+            Ide::get()->setUserConfigValue("extension.scenebuilder.split.left", str::join($split->dividerPositions, ";"));
+        });
 
         return $box;
     }
