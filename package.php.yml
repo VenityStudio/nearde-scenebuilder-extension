@@ -1,2 +1,8 @@
 name: nearde-scenebuilder-extension
 version: 1.0.0
+
+neardeHub:
+   build: 
+      - jppm build
+   files:
+      - "./nearde-extension/build/nearde-scenebuilder-extension-1.0.0.jar"
